@@ -16,6 +16,8 @@ class FUUIDSpec extends Specification with IOMatchers {
 
   "FUUID annotation" should {
 
+    import User._
+
     val expected = Fuuid.fuuid("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
 
     "only be used with objects" >> {
