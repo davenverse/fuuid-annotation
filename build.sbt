@@ -1,16 +1,15 @@
-import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
-
-lazy val `fuuid-annotation` = project.in(file("."))
+lazy val `fuuid-annotation` = project
+  .in(file("."))
   .settings(commonSettings, releaseSettings, skipOnPublishSettings)
   .aggregate(core, docs)
 
-lazy val core = project.in(file("core"))
+lazy val core = project
+  .in(file("core"))
   .settings(commonSettings, releaseSettings, mimaSettings)
-  .settings(
-    name := "fuuid-annotation"
-  )
+  .settings(name := "fuuid-annotation")
 
-lazy val docs = project.in(file("docs"))
+lazy val docs = project
+  .in(file("docs"))
   .settings(commonSettings, skipOnPublishSettings, micrositeSettings)
   .dependsOn(core)
   .enablePlugins(MicrositesPlugin)
@@ -46,67 +45,52 @@ val betterMonadicForV = "0.3.0"
 // General Settings
 lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
-
   scalaVersion := "2.12.8",
   crossScalaVersions := Seq(scalaVersion.value, "2.11.12"),
   scalacOptions += "-Yrangepos",
-
   scalacOptions in (Compile, doc) ++= Seq(
-      "-groups",
-      "-sourcepath", (baseDirectory in LocalRootProject).value.getAbsolutePath,
-      "-doc-source-url", "https://github.com/ChristopherDavenport/fuuid-annotation/blob/v" + version.value + "€{FILE_PATH}.scala"
+    "-groups",
+    "-sourcepath",
+    (baseDirectory in LocalRootProject).value.getAbsolutePath,
+    "-doc-source-url",
+    "https://github.com/ChristopherDavenport/fuuid-annotation/blob/v" + version.value + "€{FILE_PATH}.scala"
   ),
-
-  addCompilerPlugin("org.typelevel" % "kind-projector" % kindProjectorV cross CrossVersion.binary),
+  addCompilerPlugin("org.typelevel" % "kind-projector"      % kindProjectorV cross CrossVersion.binary),
   addCompilerPlugin("com.olegpy"    %% "better-monadic-for" % betterMonadicForV),
   libraryDependencies ++= Seq(
-    "org.typelevel"               %% "cats-core"                  % catsV,
-
-    "org.typelevel"               %% "kittens"                    % kittensV,
-    "org.typelevel"               %% "alleycats-core"             % catsV,
-    "org.typelevel"               %% "mouse"                      % mouseV,
-
-    "org.typelevel"               %% "cats-effect"                % catsEffectV,
-
-    "com.chuusai"                 %% "shapeless"                  % shapelessV,
-
-    "co.fs2"                      %% "fs2-core"                   % fs2V,
-    "co.fs2"                      %% "fs2-io"                     % fs2V,
-
-    "org.http4s"                  %% "http4s-dsl"                 % http4sV,
-    "org.http4s"                  %% "http4s-blaze-server"        % http4sV,
-    "org.http4s"                  %% "http4s-blaze-client"        % http4sV,
-    "org.http4s"                  %% "http4s-circe"               % http4sV,
-
-    "io.circe"                    %% "circe-core"                 % circeV,
-    "io.circe"                    %% "circe-generic"              % circeV,
-    "io.circe"                    %% "circe-parser"               % circeV,
-
-    "org.tpolecat"                %% "doobie-core"                % doobieV,
-    "org.tpolecat"                %% "doobie-h2"                  % doobieV,
-    "org.tpolecat"                %% "doobie-hikari"              % doobieV,
-    "org.tpolecat"                %% "doobie-postgres"            % doobieV,
-    "org.tpolecat"                %% "doobie-specs2"              % doobieV       % Test,
-
-    "io.chrisdavenport"           %% "log4cats-core"              % log4catsV,
-    "io.chrisdavenport"           %% "log4cats-slf4j"             % log4catsV,
-    "io.chrisdavenport"           %% "log4cats-extras"            % log4catsV,
-    "io.chrisdavenport"           %% "log4cats-testing"           % log4catsV     % Test,
-
-    "io.chrisdavenport"           %% "cats-par"                   % catsParV,
-    "io.chrisdavenport"           %% "cats-time"                  % catsTimeV,
-
-    "io.chrisdavenport"           %% "linebacker"                 % lineBackerV,
-
-    "io.chrisdavenport"           %% "fuuid"                      % fuuidV,
-
-    "com.github.pureconfig"       %% "pureconfig"                 % pureConfigV,
-
-    "eu.timepit"                  %% "refined"                    % refinedV,
-    "eu.timepit"                  %% "refined-scalacheck"         % refinedV      % Test,
-
-    "org.specs2"                  %% "specs2-core"                % specs2V       % Test,
-    "org.specs2"                  %% "specs2-scalacheck"          % specs2V       % Test
+    "org.typelevel"         %% "cats-core"           % catsV,
+    "org.typelevel"         %% "kittens"             % kittensV,
+    "org.typelevel"         %% "alleycats-core"      % catsV,
+    "org.typelevel"         %% "mouse"               % mouseV,
+    "org.typelevel"         %% "cats-effect"         % catsEffectV,
+    "com.chuusai"           %% "shapeless"           % shapelessV,
+    "co.fs2"                %% "fs2-core"            % fs2V,
+    "co.fs2"                %% "fs2-io"              % fs2V,
+    "org.http4s"            %% "http4s-dsl"          % http4sV,
+    "org.http4s"            %% "http4s-blaze-server" % http4sV,
+    "org.http4s"            %% "http4s-blaze-client" % http4sV,
+    "org.http4s"            %% "http4s-circe"        % http4sV,
+    "io.circe"              %% "circe-core"          % circeV,
+    "io.circe"              %% "circe-generic"       % circeV,
+    "io.circe"              %% "circe-parser"        % circeV,
+    "org.tpolecat"          %% "doobie-core"         % doobieV,
+    "org.tpolecat"          %% "doobie-h2"           % doobieV,
+    "org.tpolecat"          %% "doobie-hikari"       % doobieV,
+    "org.tpolecat"          %% "doobie-postgres"     % doobieV,
+    "org.tpolecat"          %% "doobie-specs2"       % doobieV % Test,
+    "io.chrisdavenport"     %% "log4cats-core"       % log4catsV,
+    "io.chrisdavenport"     %% "log4cats-slf4j"      % log4catsV,
+    "io.chrisdavenport"     %% "log4cats-extras"     % log4catsV,
+    "io.chrisdavenport"     %% "log4cats-testing"    % log4catsV % Test,
+    "io.chrisdavenport"     %% "cats-par"            % catsParV,
+    "io.chrisdavenport"     %% "cats-time"           % catsTimeV,
+    "io.chrisdavenport"     %% "linebacker"          % lineBackerV,
+    "io.chrisdavenport"     %% "fuuid"               % fuuidV,
+    "com.github.pureconfig" %% "pureconfig"          % pureConfigV,
+    "eu.timepit"            %% "refined"             % refinedV,
+    "eu.timepit"            %% "refined-scalacheck"  % refinedV % Test,
+    "org.specs2"            %% "specs2-core"         % specs2V % Test,
+    "org.specs2"            %% "specs2-scalacheck"   % specs2V % Test
   )
 )
 
@@ -183,10 +167,10 @@ lazy val mimaSettings = {
     val majorVersions: List[Int] =
       if (major == 0 && minor == 0) List.empty[Int] // If 0.0.x do not check MiMa
       else List(major)
-    val minorVersions : List[Int] =
+    val minorVersions: List[Int] =
       if (major >= 1) Range(0, minor).inclusive.toList
       else List(minor)
-    def patchVersions(currentMinVersion: Int): List[Int] = 
+    def patchVersions(currentMinVersion: Int): List[Int] =
       if (minor == 0 && patch == 0) List.empty[Int]
       else if (currentMinVersion != minor) List(0)
       else Range(0, patch - 1).inclusive.toList
@@ -203,7 +187,7 @@ lazy val mimaSettings = {
     Version(version) match {
       case Some(Version(major, Seq(minor, patch), _)) =>
         semverBinCompatVersions(major.toInt, minor.toInt, patch.toInt)
-          .map{case (maj, min, pat) => maj.toString + "." + min.toString + "." + pat.toString}
+          .map { case (maj, min, pat) => maj.toString + "." + min.toString + "." + pat.toString }
       case _ =>
         Set.empty[String]
     }
@@ -215,16 +199,14 @@ lazy val mimaSettings = {
   lazy val extraVersions: Set[String] = Set()
 
   Seq(
-    mimaFailOnProblem := mimaVersions(version.value).toList.headOption.isDefined,
+    mimaFailOnProblem := mimaVersions(version.value).toList.nonEmpty,
     mimaPreviousArtifacts := (mimaVersions(version.value) ++ extraVersions)
-      .filterNot(excludedVersions.contains(_))
-      .map{v => 
+      .diff(excludedVersions)
+      .map { v =>
         val moduleN = moduleName.value + "_" + scalaBinaryVersion.value.toString
         organization.value % moduleN % v
       },
     mimaBinaryIssueFilters ++= {
-      import com.typesafe.tools.mima.core._
-      import com.typesafe.tools.mima.core.ProblemFilters._
       Seq()
     }
   )
@@ -265,17 +247,26 @@ lazy val micrositeSettings = {
     micrositePushSiteWith := GitHub4s,
     micrositeGithubToken := sys.env.get("GITHUB_TOKEN"),
     micrositeExtraMdFiles := Map(
-        file("CHANGELOG.md")        -> ExtraMdFileConfig("changelog.md", "page", Map("title" -> "changelog", "section" -> "changelog", "position" -> "100")),
-        file("CODE_OF_CONDUCT.md")  -> ExtraMdFileConfig("code-of-conduct.md",   "page", Map("title" -> "code of conduct",   "section" -> "code of conduct",   "position" -> "101")),
-        file("LICENSE")             -> ExtraMdFileConfig("license.md",   "page", Map("title" -> "license",   "section" -> "license",   "position" -> "102"))
+      file("CHANGELOG.md") -> ExtraMdFileConfig(
+        "changelog.md",
+        "page",
+        Map("title" -> "changelog", "section" -> "changelog", "position" -> "100")),
+      file("CODE_OF_CONDUCT.md") -> ExtraMdFileConfig(
+        "code-of-conduct.md",
+        "page",
+        Map("title" -> "code of conduct", "section" -> "code of conduct", "position" -> "101")),
+      file("LICENSE") -> ExtraMdFileConfig(
+        "license.md",
+        "page",
+        Map("title" -> "license", "section" -> "license", "position" -> "102"))
     )
   )
 }
 
 lazy val skipOnPublishSettings = Seq(
   skip in publish := true,
-  publish := (()),
-  publishLocal := (()),
+  publish := (),
+  publishLocal := (),
   publishArtifact := false,
   publishTo := None
 )
