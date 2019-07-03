@@ -7,10 +7,9 @@ import scala.reflect.macros.whitebox
 /**
  * This annotation can be used on any kind of object to automatically
  * create an inner `Id` tagged `FUUID` type with convenient methods for
- * its creation. It also provides an implicit doobie's `Meta` for
- * converting an `Id` to/between its PostgreSQL counterpart and implicit
- * instances for cats' `Hash`, `Order` and `Show` type-classes. All these
- * instances are available in the enclosing object.
+ * its creation. It also provides implicit instances for cats' `Hash`,
+ * `Order` and `Show` type-classes. All these instances are available
+ * in the enclosing object.
  *
  * @example For an object named `User` {{{
  * object User {
@@ -40,8 +39,6 @@ import scala.reflect.macros.whitebox
  *        }
  *
  *    }
- *
- *    implicit val IdMetaInstance: Meta[User.Id] = ???
  *
  *    implicit val IdHashOrderShowInstances: Hash[$name.Id] with Order[$name.Id] with Show[$name.Id] = ???
  *
@@ -94,10 +91,6 @@ object FUUIDMacros {
           }
           
         }
-        
-        implicit val IdMetaInstance: doobie.util.Meta[$name.Id] =
-          _root_.io.chrisdavenport.fuuid.doobie.implicits.FuuidType(_root_.doobie.postgres.implicits.UuidType)
-            .timap($name.Id.apply)(identity)
 
         implicit val IdHashOrderShowInstances: _root_.cats.Hash[$name.Id] with _root_.cats.Order[$name.Id] with _root_.cats.Show[$name.Id] =
           new _root_.cats.Hash[$name.Id] with _root_.cats.Order[$name.Id] with _root_.cats.Show[$name.Id] {

@@ -21,7 +21,6 @@ lazy val contributors = Seq(
 )
 
 val shapelessV = "2.3.3"
-val doobieV = "0.7.0"
 val fuuidV = "0.2.0"
 val specs2V = "4.5.1"
 val macroParadiseV = "2.1.1"
@@ -44,7 +43,6 @@ lazy val commonSettings = Seq(
     "org.scala-lang"    % "scala-reflect" % scalaVersion.value,
     "io.chrisdavenport" %% "fuuid"        % fuuidV,
     "com.chuusai"       %% "shapeless"    % shapelessV,
-    "io.chrisdavenport" %% "fuuid-doobie" % fuuidV % Test,
     "org.specs2"        %% "specs2-core"  % specs2V % Test,
     "org.specs2"        %% "specs2-cats"  % specs2V % Test
   )
