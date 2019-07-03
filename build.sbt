@@ -5,6 +5,7 @@ lazy val `fuuid-annotation` = project
 
 lazy val core = project
   .in(file("core"))
+  .settings(scalacOptions --= Seq("-Ywarn-unused:patvars"))
   .settings(commonSettings, releaseSettings, mimaSettings)
   .settings(name := "fuuid-annotation")
 
