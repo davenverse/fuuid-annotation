@@ -15,8 +15,8 @@ import scala.reflect.macros.whitebox
  * The `deriveMeta` parameter can be used to control whether to
  * automatically derive (by setting it to `true`) a
  * [[https://git.io/fj64d doobie's Meta]]
- * instance for the generated `Id` type (a dependency with `doobie-core`
- * will be necessary).
+ * instance for the generated `Id` type (a dependency with `fuuid-doobie`
+ * and `doobie-postgres` will be necessary).
  *
  * @example For an object named `User` {{{
  * object User {
@@ -58,8 +58,8 @@ import scala.reflect.macros.whitebox
  * @param deriveMeta Set this value to `true` to automatically derive a
  *                   [[https://git.io/fj64d doobie's Meta]]
  *                   instance for the generated `Id` type (a dependency
- *                   with `doobie-core` will be necessary). Defaults to
- *                   `false`.
+ *                   with `fuuid-doobie` and `doobie-postgres` will be
+ *                   necessary). Defaults to `false`.
  */
 @compileTimeOnly("enable macro paradise to expand macro annotations")
 @silent("never used")
