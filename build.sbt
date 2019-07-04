@@ -8,6 +8,16 @@ lazy val core = project
   .settings(scalacOptions --= Seq("-Ywarn-unused:patvars"))
   .settings(commonSettings, releaseSettings, mimaSettings)
   .settings(name := "fuuid-annotation")
+  .settings(Defaults.itSettings)
+  .configs(IntegrationTest)
+  .settings(libraryDependencies ++= Seq(
+    "io.chrisdavenport" %% "fuuid-doobie"          % fuuidV,
+    "org.specs2"        %% "specs2-cats"           % specs2V % IntegrationTest,
+    "org.specs2"        %% "specs2-cats"           % specs2V % IntegrationTest,
+    "org.tpolecat"      %% "doobie-core"           % doobieV % IntegrationTest,
+    "org.tpolecat"      %% "doobie-postgres"       % doobieV % IntegrationTest,
+    "io.chrisdavenport" %% "testcontainers-specs2" % testContainersSpecs2V % IntegrationTest
+  ))
 
 lazy val docs = project
   .in(file("docs"))
@@ -20,11 +30,13 @@ lazy val contributors = Seq(
   "ChristopherDavenport" -> "Christopher Davenport"
 )
 
+val doobieV = "0.7.0"
 val shapelessV = "2.3.3"
 val fuuidV = "0.2.0"
 val specs2V = "4.5.1"
 val macroParadiseV = "2.1.1"
 val silencerV = "1.4.1"
+val testContainersSpecs2V = "0.1.0"
 
 // General Settings
 lazy val commonSettings = Seq(
