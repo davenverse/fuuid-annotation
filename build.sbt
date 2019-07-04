@@ -11,11 +11,9 @@ lazy val core = project
   .settings(Defaults.itSettings)
   .configs(IntegrationTest)
   .settings(libraryDependencies ++= Seq(
-    "io.chrisdavenport" %% "fuuid-doobie"          % fuuidV,
-    "org.specs2"        %% "specs2-cats"           % specs2V % IntegrationTest,
-    "org.specs2"        %% "specs2-cats"           % specs2V % IntegrationTest,
-    "org.tpolecat"      %% "doobie-core"           % doobieV % IntegrationTest,
-    "org.tpolecat"      %% "doobie-postgres"       % doobieV % IntegrationTest,
+    "org.specs2"        %% "specs2-cats"           % specs2V               % IntegrationTest,
+    "org.tpolecat"      %% "doobie-core"           % doobieV               % IntegrationTest,
+    "org.tpolecat"      %% "doobie-postgres"       % doobieV               % IntegrationTest,
     "io.chrisdavenport" %% "testcontainers-specs2" % testContainersSpecs2V % IntegrationTest
   ))
 
@@ -55,12 +53,14 @@ lazy val commonSettings = Seq(
   addCompilerPlugin("org.scalamacros" % "paradise"         % macroParadiseV cross CrossVersion.full),
   addCompilerPlugin("com.github.ghik" %% "silencer-plugin" % silencerV),
   libraryDependencies ++= Seq(
-    "org.scala-lang"    % "scala-reflect" % scalaVersion.value,
-    "com.github.ghik"   %% "silencer-lib" % silencerV % Provided,
-    "io.chrisdavenport" %% "fuuid"        % fuuidV,
-    "com.chuusai"       %% "shapeless"    % shapelessV,
-    "org.specs2"        %% "specs2-core"  % specs2V % Test,
-    "org.specs2"        %% "specs2-cats"  % specs2V % Test
+    "org.scala-lang"    % "scala-reflect"    % scalaVersion.value,
+    "org.tpolecat"      %% "doobie-postgres" % doobieV,
+    "com.github.ghik"   %% "silencer-lib"    % silencerV % Provided,
+    "io.chrisdavenport" %% "fuuid"           % fuuidV,
+    "io.chrisdavenport" %% "fuuid-doobie"    % fuuidV,
+    "com.chuusai"       %% "shapeless"       % shapelessV,
+    "org.specs2"        %% "specs2-core"     % specs2V % Test,
+    "org.specs2"        %% "specs2-cats"     % specs2V % Test
   )
 )
 
