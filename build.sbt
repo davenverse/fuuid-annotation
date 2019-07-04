@@ -27,7 +27,8 @@ lazy val docs = project
   .enablePlugins(TutPlugin)
 
 lazy val contributors = Seq(
-  "ChristopherDavenport" -> "Christopher Davenport"
+  "ChristopherDavenport" -> "Christopher Davenport",
+  "alejandrohdezma" -> "Alejandro Hernández"
 )
 
 val doobieV = "0.7.0"
