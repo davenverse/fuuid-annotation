@@ -24,6 +24,7 @@ val shapelessV = "2.3.3"
 val fuuidV = "0.2.0"
 val specs2V = "4.5.1"
 val macroParadiseV = "2.1.1"
+val silencerV = "1.4.1"
 
 // General Settings
 lazy val commonSettings = Seq(
@@ -38,9 +39,11 @@ lazy val commonSettings = Seq(
     "-doc-source-url",
     "https://github.com/ChristopherDavenport/fuuid-annotation/blob/v" + version.value + "€{FILE_PATH}.scala"
   ),
-  addCompilerPlugin("org.scalamacros" % "paradise" % macroParadiseV cross CrossVersion.full),
+  addCompilerPlugin("org.scalamacros" % "paradise"         % macroParadiseV cross CrossVersion.full),
+  addCompilerPlugin("com.github.ghik" %% "silencer-plugin" % silencerV),
   libraryDependencies ++= Seq(
     "org.scala-lang"    % "scala-reflect" % scalaVersion.value,
+    "com.github.ghik"   %% "silencer-lib" % silencerV % Provided,
     "io.chrisdavenport" %% "fuuid"        % fuuidV,
     "com.chuusai"       %% "shapeless"    % shapelessV,
     "org.specs2"        %% "specs2-core"  % specs2V % Test,
