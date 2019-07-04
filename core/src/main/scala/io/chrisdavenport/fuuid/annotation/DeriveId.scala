@@ -46,11 +46,11 @@ import scala.reflect.macros.whitebox
  * }}}
  */
 @compileTimeOnly("enable macro paradise to expand macro annotations")
-class FUUID extends StaticAnnotation {
-  def macroTransform(annottees: Any*): Any = macro FUUIDMacros.impl
+class DeriveId extends StaticAnnotation {
+  def macroTransform(annottees: Any*): Any = macro DeriveIdMacros.impl
 }
 
-object FUUIDMacros {
+object DeriveIdMacros {
 
   def fuuidLiteral(c: whitebox.Context)(s: c.Expr[String]): c.Tree = {
     import c.universe._
@@ -64,7 +64,7 @@ object FUUIDMacros {
 
     val (name, parents, body) = (annottees map (_.tree)).headOption collect {
       case q"object $name extends ..$parents { ..$body }" => (name, parents, body)
-    } getOrElse c.abort(c.enclosingPosition, "@FUUID can only be used with objects")
+    } getOrElse c.abort(c.enclosingPosition, "@DeriveId can only be used with objects")
 
     c.Expr[Any](q"""
       @SuppressWarnings(Array("org.wartremover.warts.All"))
@@ -80,7 +80,7 @@ object FUUIDMacros {
             _root_.shapeless.tag[IdTag][_root_.io.chrisdavenport.fuuid.FUUID](fuuid)
     
           def apply(s: String): $name.Id =
-            macro _root_.io.chrisdavenport.fuuid.annotation.FUUIDMacros.fuuidLiteral
+            macro _root_.io.chrisdavenport.fuuid.annotation.DeriveIdMacros.fuuidLiteral
     
           def random[F[_]: _root_.cats.effect.Sync]: F[$name.Id] =
             _root_.cats.effect.Sync[F].map(_root_.io.chrisdavenport.fuuid.FUUID.randomFUUID[F])(apply)

@@ -9,9 +9,9 @@ import org.specs2.mutable.Specification
 import shapeless.test.illTyped
 
 @SuppressWarnings(Array("org.wartremover.warts.Throw"))
-class FUUIDSpec extends Specification with IOMatchers {
+class DeriveIdSpec extends Specification with IOMatchers {
 
-  @FUUID
+  @DeriveId
   object User
 
   "FUUID annotation" should {
@@ -21,7 +21,7 @@ class FUUIDSpec extends Specification with IOMatchers {
     val expected = Fuuid.fuuid("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
 
     "only be used with objects" >> {
-      illTyped("""@FUUID class Thing""", "@FUUID can only be used with objects")
+      illTyped("""@DeriveId class Thing""", "@DeriveId can only be used with objects")
 
       success
     }
