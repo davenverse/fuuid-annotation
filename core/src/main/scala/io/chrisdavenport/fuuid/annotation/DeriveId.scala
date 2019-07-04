@@ -40,7 +40,8 @@ import scala.reflect.macros.whitebox
  *
  *    }
  *
- *    implicit val IdHashOrderShowInstances: Hash[$name.Id] with Order[$name.Id] with Show[$name.Id] = ???
+ *    implicit val IdHashOrderShowInstances: Hash[User.Id]
+ *      with Order[User.Id] with Show[User.Id] = ???
  *
  * }
  * }}}
