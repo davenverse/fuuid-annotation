@@ -1,0 +1,11 @@
+name: fuuid-annotation
+baseurl: /fuuid-annotation
+description: Annotated FUUID's
+highlighter: rouge
+docs: true
+collections:
+  tut:
+    output: true
+version: 0.0.2-SNAPSHOT
+org: io.chrisdavenport
+markdown: kramdown
