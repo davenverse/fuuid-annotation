@@ -190,6 +190,7 @@ lazy val micrositeSettings = {
     micrositeGithubRepo := "fuuid-annotation",
     micrositeBaseUrl := "/fuuid-annotation",
     micrositeDocumentationUrl := "https://www.javadoc.io/doc/io.chrisdavenport/fuuid-annotation_2.12",
+    micrositeGitterChannelUrl := "christopherdavenport/libraries",
     micrositeFooterText := None,
     micrositeHighlightTheme := "atom-one-light",
     micrositePalette := Map(
