@@ -12,6 +12,7 @@ lazy val core = project
   .configs(IntegrationTest)
   .settings(libraryDependencies ++= Seq(
     "org.scala-lang"    % "scala-reflect"          % scalaVersion.value,
+    "com.chuusai"       %% "shapeless"             % shapelessV % Test,
     "io.chrisdavenport" %% "fuuid-doobie"          % fuuidV % IntegrationTest,
     "org.specs2"        %% "specs2-cats"           % specs2V % IntegrationTest,
     "org.tpolecat"      %% "doobie-core"           % doobieV % IntegrationTest,
@@ -32,6 +33,7 @@ lazy val contributors = Seq(
 )
 
 val doobieV = "0.7.0"
+val shapelessV = "2.3.3"
 val fuuidV = "0.2.0"
 val specs2V = "4.6.0"
 val macroParadiseV = "2.1.1"
