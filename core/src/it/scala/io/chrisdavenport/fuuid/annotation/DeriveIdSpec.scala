@@ -42,6 +42,9 @@ class DeriveIdSpec extends Specification with ForAllTestContainer with IOMatcher
 
   "Meta[User.Id]" should {
 
+    import User._
+    import io.chrisdavenport.fuuid.doobie.implicits._
+
     "return User.Id on UUID" in {
       val uuid = UUID.randomUUID()
 
