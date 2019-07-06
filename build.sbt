@@ -26,6 +26,10 @@ lazy val docs = project
   .dependsOn(core)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(TutPlugin)
+  .settings(libraryDependencies ++= Seq(
+    "io.chrisdavenport" %% "fuuid-doobie"    % fuuidV,
+    "org.tpolecat"      %% "doobie-postgres" % doobieV,
+  ))
 
 lazy val contributors = Seq(
   "ChristopherDavenport" -> "Christopher Davenport",
