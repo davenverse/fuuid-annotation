@@ -55,7 +55,7 @@ User.Id.random[IO]
 User.Id.Unsafe.random
 ```
 
-The annotation also provides instances for cats `Show`, `Order` and `Hash` (availables at `User._`)
+The annotation also provides instances for cats `Show`, `Order` and `Hash` (available under `User.Id.implicits`)
 
 ## Doobie integration
 
@@ -78,15 +78,15 @@ Then, just set annotation's `deriveMeta` to `true`:
 object Person
 ``` 
 
-The `Meta[Id]` instance will be available under object `Person`. An implicit instance of `Meta[FUUID]` must be provided.
+The `Meta[Id]` instance will be available under `Person.Id.implicits`. An implicit instance of `Meta[FUUID]` must be provided.
 
-> A `Meta[FUUID]` instance can be provided by importing both `doobie.postgres.implicits_` and `io.chrisdavenport.fuuid.doobie.implicits_`.
+> A `Meta[FUUID]` instance can be provided by importing both `doobie.postgres.implicits._` and `io.chrisdavenport.fuuid.doobie.implicits._`.
 
 ```tut:silent
 import doobie.util.Meta
 import doobie.postgres.implicits._
 import io.chrisdavenport.fuuid.doobie.implicits._
-import Person._
+import Person.Id.implicits._
 ```
 
 ```tut

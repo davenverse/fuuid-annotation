@@ -16,7 +16,7 @@ class DeriveIdSpec extends Specification with IOMatchers {
 
   "FUUID annotation" should {
 
-    import User._
+    import User.Id.implicits._
 
     val expected = Fuuid.fuuid("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
 

@@ -10,13 +10,13 @@ import scala.reflect.macros.whitebox
  * create an inner `Id` tagged `FUUID` type with convenient methods for
  * its creation. It also provides implicit instances for cats' `Hash`,
  * `Order` and `Show` type-classes. All these instances are available
- * in the enclosing object.
+ * under `Id.implicits`
  *
  * The `deriveMeta` parameter can be used to control whether to
  * automatically derive (by setting it to `true`) a
  * [[https://git.io/fj64d doobie's Meta]]
  * instance for the generated `Id` type (an implicit `Meta[FUUID`
- * will be required).
+ * will be required), that will be also available under `Id.implicits`.
  *
  * @example For an object named `User` {{{
  * object User {
@@ -45,13 +45,17 @@ import scala.reflect.macros.whitebox
  *
  *        }
  *
+ *        object implicits {
+ *
+ *          implicit val IdHashOrderShowInstances: Hash[User.Id]
+ *            with Order[User.Id] with Show[User.Id] = ???
+ *
+ *          //If `deriveMeta` is `true`
+ *          implicit def IdMetaInstance(implicit U: Meta[FUUID]): Meta[User.Id] = ???
+ *
+ *        }
+ *
  *    }
- *
- *    implicit val IdHashOrderShowInstances: Hash[User.Id]
- *      with Order[User.Id] with Show[User.Id] = ???
- *
- *    //If `deriveMeta` is `true`
- *    implicit def IdMetaInstance(implicit U: Meta[FUUID]): Meta[User.Id] = ???
  *
  * }
  * }}}
@@ -122,17 +126,21 @@ object DeriveIdMacros {
               Id(_root_.io.chrisdavenport.fuuid.FUUID.randomFUUID[_root_.cats.effect.IO].unsafeRunSync())
           }
           
-        }
-
-        implicit val IdHashOrderShowInstances: _root_.cats.Hash[$name.Id] with _root_.cats.Order[$name.Id] with _root_.cats.Show[$name.Id] =
-          new _root_.cats.Hash[$name.Id] with _root_.cats.Order[$name.Id] with _root_.cats.Show[$name.Id] {
-            override def show(t: $name.Id): String = t.show
-            override def eqv(x: $name.Id, y: $name.Id): Boolean = x.eqv(y)
-            override def hash(x: $name.Id): Int = x.hashCode
-            override def compare(x: $name.Id, y: $name.Id): Int = x.compare(y)
+          object implicits {
+          
+            implicit val IdHashOrderShowInstances: _root_.cats.Hash[$name.Id] with _root_.cats.Order[$name.Id] with _root_.cats.Show[$name.Id] =
+              new _root_.cats.Hash[$name.Id] with _root_.cats.Order[$name.Id] with _root_.cats.Show[$name.Id] {
+                override def show(t: $name.Id): String = t.show
+                override def eqv(x: $name.Id, y: $name.Id): Boolean = x.eqv(y)
+                override def hash(x: $name.Id): Int = x.hashCode
+                override def compare(x: $name.Id, y: $name.Id): Int = x.compare(y)
+              }
+          
+            $metaInstance
+          
           }
           
-        $metaInstance
+        }
         
         ..$body
       }
