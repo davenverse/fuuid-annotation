@@ -42,7 +42,7 @@ val fuuidV = "0.2.0"
 val specs2V = "4.6.0"
 val macroParadiseV = "2.1.1"
 val silencerV = "1.4.1"
-val testContainersSpecs2V = "0.1.0"
+val testContainersSpecs2V = "0.2.0-M1"
 
 // General Settings
 lazy val commonSettings = Seq(
