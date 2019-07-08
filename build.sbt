@@ -8,16 +8,9 @@ lazy val core = project
   .settings(scalacOptions --= Seq("-Ywarn-unused:patvars"))
   .settings(commonSettings, releaseSettings, mimaSettings)
   .settings(name := "fuuid-annotation")
-  .settings(Defaults.itSettings)
-  .configs(IntegrationTest)
   .settings(libraryDependencies ++= Seq(
     "org.scala-lang"    % "scala-reflect"          % scalaVersion.value,
-    "com.chuusai"       %% "shapeless"             % shapelessV % Test,
-    "io.chrisdavenport" %% "fuuid-doobie"          % fuuidV % IntegrationTest,
-    "org.specs2"        %% "specs2-cats"           % specs2V % IntegrationTest,
-    "org.tpolecat"      %% "doobie-core"           % doobieV % IntegrationTest,
-    "org.tpolecat"      %% "doobie-postgres"       % doobieV % IntegrationTest,
-    "io.chrisdavenport" %% "testcontainers-specs2" % testContainersSpecs2V % IntegrationTest
+    "com.chuusai"       %% "shapeless"             % shapelessV % Test
   ))
 
 lazy val docs = project
