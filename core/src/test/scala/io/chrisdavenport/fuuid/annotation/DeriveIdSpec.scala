@@ -8,7 +8,6 @@ import org.specs2.matcher.IOMatchers
 import org.specs2.mutable.Specification
 import shapeless.test.illTyped
 
-@SuppressWarnings(Array("org.wartremover.warts.Throw"))
 class DeriveIdSpec extends Specification with IOMatchers {
 
   @DeriveId

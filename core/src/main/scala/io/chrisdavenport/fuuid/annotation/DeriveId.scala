@@ -58,7 +58,6 @@ object DeriveIdMacros {
     q"${c.prefix}.apply(_root_.io.chrisdavenport.fuuid.FUUID.fuuid($s))"
   }
 
-  @SuppressWarnings(Array("org.wartremover.warts.PublicInference"))
   def impl(c: whitebox.Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
     import c.universe._
 
