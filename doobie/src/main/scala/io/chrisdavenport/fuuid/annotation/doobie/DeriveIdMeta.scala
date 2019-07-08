@@ -32,12 +32,12 @@ object DeriveIdMetaMacros {
   def impl(c: whitebox.Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
     import c.universe._
 
-    val (name, parents, body) = (annottees map (_.tree)).headOption collect {
-      case q"object $name extends ..$parents { ..$body }" => (name, parents, body)
+    val (mods, name, parents, body) = (annottees map (_.tree)).headOption collect {
+      case q"$mods object $name extends ..$parents { ..$body }" => (mods, name, parents, body)
     } getOrElse c.abort(c.enclosingPosition, "@DeriveIdMeta can only be used with objects")
 
     c.Expr[Any](q"""
-      object $name extends ..$parents {
+      $mods object $name extends ..$parents {
 
          implicit val IdMetaInstance: _root_.doobie.util.Meta[$name.Id] =
            implicitly[_root_.doobie.util.Meta[_root_.io.chrisdavenport.fuuid.FUUID]]
