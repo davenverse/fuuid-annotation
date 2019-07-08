@@ -1,7 +1,5 @@
 package io.chrisdavenport.fuuid.annotation
 
-import com.github.ghik.silencer.silent
-
 import scala.annotation.{compileTimeOnly, StaticAnnotation}
 import scala.reflect.macros.whitebox
 
@@ -48,7 +46,6 @@ import scala.reflect.macros.whitebox
  * }}}
  */
 @compileTimeOnly("enable macro paradise to expand macro annotations")
-@silent("never used")
 class DeriveId extends StaticAnnotation {
   def macroTransform(annottees: Any*): Any = macro DeriveIdMacros.impl
 }

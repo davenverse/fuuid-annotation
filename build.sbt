@@ -68,9 +68,7 @@ lazy val commonSettings = Seq(
     "https://github.com/ChristopherDavenport/fuuid-annotation/blob/v" + version.value + "€{FILE_PATH}.scala"
   ),
   addCompilerPlugin("org.scalamacros" % "paradise"         % macroParadiseV cross CrossVersion.full),
-  addCompilerPlugin("com.github.ghik" %% "silencer-plugin" % silencerV),
   libraryDependencies ++= Seq(
-    "com.github.ghik"   %% "silencer-lib" % silencerV % Provided,
     "io.chrisdavenport" %% "fuuid"        % fuuidV,
     "org.specs2"        %% "specs2-core"  % specs2V % Test,
     "org.specs2"        %% "specs2-cats"  % specs2V % Test
