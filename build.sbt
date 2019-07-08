@@ -1,7 +1,7 @@
 lazy val `fuuid-annotation` = project
   .in(file("."))
   .settings(commonSettings, releaseSettings, skipOnPublishSettings)
-  .aggregate(core, docs)
+  .aggregate(core, doobie, docs)
 
 lazy val core = project
   .in(file("core"))
@@ -11,6 +11,23 @@ lazy val core = project
   .settings(libraryDependencies ++= Seq(
     "org.scala-lang"    % "scala-reflect"          % scalaVersion.value,
     "com.chuusai"       %% "shapeless"             % shapelessV % Test
+  ))
+
+lazy val doobie = project
+  .in(file("doobie"))
+  .settings(scalacOptions --= Seq("-Ywarn-unused:patvars"))
+  .settings(commonSettings, releaseSettings, mimaSettings)
+  .settings(name := "fuuid-annotation-doobie")
+  .settings(Defaults.itSettings)
+  .configs(IntegrationTest)
+  .dependsOn(core)
+  .settings(libraryDependencies ++= Seq(
+    "com.chuusai"       %% "shapeless"             % shapelessV % IntegrationTest,
+    "io.chrisdavenport" %% "fuuid-doobie"          % fuuidV % IntegrationTest,
+    "org.specs2"        %% "specs2-cats"           % specs2V % IntegrationTest,
+    "org.tpolecat"      %% "doobie-core"           % doobieV % IntegrationTest,
+    "org.tpolecat"      %% "doobie-postgres"       % doobieV % IntegrationTest,
+    "io.chrisdavenport" %% "testcontainers-specs2" % testContainersSpecs2V % IntegrationTest
   ))
 
 lazy val docs = project
