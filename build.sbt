@@ -67,6 +67,7 @@ lazy val commonSettings = Seq(
     "-doc-source-url",
     "https://github.com/ChristopherDavenport/fuuid-annotation/blob/v" + version.value + "€{FILE_PATH}.scala"
   ),
+  wartremoverErrors ++= Warts.all,
   addCompilerPlugin("org.scalamacros" % "paradise"         % macroParadiseV cross CrossVersion.full),
   libraryDependencies ++= Seq(
     "io.chrisdavenport" %% "fuuid"        % fuuidV,
