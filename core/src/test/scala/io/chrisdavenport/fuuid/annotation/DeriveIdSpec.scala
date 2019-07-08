@@ -46,6 +46,17 @@ class DeriveIdSpec extends Specification with IOMatchers {
         success
       }
 
+      "fail when not literal" >> {
+        illTyped(
+          """val string = "miau"; User.Id.apply(string)""",
+          "This method uses a macro to verify that a FUUID literal is valid." +
+            " Use FUUID.fromString if you have a dynamic value you want to" +
+            " parse as an FUUID."
+        )
+
+        success
+      }
+
       "compile when valid UUID" >> {
         val userId = User.Id.apply("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
 
