@@ -14,9 +14,9 @@ import shapeless.test.illTyped
     "org.wartremover.warts.NonUnitStatements"
   )
 )
-class DeriveIdSpec extends Specification with IOMatchers {
+class deriveIdSpec extends Specification with IOMatchers {
 
-  @DeriveId
+  @deriveId
   object User
 
   "FUUID annotation" should {
@@ -27,7 +27,7 @@ class DeriveIdSpec extends Specification with IOMatchers {
     val expected = FUUID.fuuid("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
 
     "only be used with objects" >> {
-      illTyped("""@DeriveId class Thing""", "@DeriveId can only be used with objects")
+      illTyped("""@deriveId class Thing""", "@deriveId can only be used with objects")
 
       success
     }
