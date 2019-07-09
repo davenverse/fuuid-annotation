@@ -82,6 +82,10 @@ object DeriveIdMacros {
       
         type Id = _root_.shapeless.tag.@@[_root_.io.chrisdavenport.fuuid.FUUID, IdTag]
     
+        @SuppressWarnings(Array(
+          "org.wartremover.warts.Overloading",
+          "org.wartremover.warts.PublicInference"
+        ))
         object Id {
     
           def apply(fuuid: _root_.io.chrisdavenport.fuuid.FUUID): $name.Id =
@@ -94,12 +98,15 @@ object DeriveIdMacros {
             _root_.cats.effect.Sync[F].map(_root_.io.chrisdavenport.fuuid.FUUID.randomFUUID[F])(apply)
     
           object Unsafe {
+
             def random: $name.Id =
               Id(_root_.io.chrisdavenport.fuuid.FUUID.randomFUUID[_root_.cats.effect.IO].unsafeRunSync())
+        
           }
           
         }
 
+        @SuppressWarnings(Array("org.wartremover.warts.PublicInference"))
         implicit val IdHashOrderShowInstances: _root_.cats.Hash[$name.Id] with _root_.cats.Order[$name.Id] with _root_.cats.Show[$name.Id] =
           new _root_.cats.Hash[$name.Id] with _root_.cats.Order[$name.Id] with _root_.cats.Show[$name.Id] {
             override def show(t: $name.Id): String = t.show
