@@ -36,6 +36,9 @@ lazy val docs = project
   .dependsOn(core, doobie)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(TutPlugin)
+  .settings(wartremoverErrors --= Seq(
+    Wart.Throw, Wart.NonUnitStatements
+  ))
   .settings(libraryDependencies ++= Seq(
     "io.chrisdavenport" %% "fuuid-doobie"    % fuuidV,
     "org.tpolecat"      %% "doobie-postgres" % doobieV,
