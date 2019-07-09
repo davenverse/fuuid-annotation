@@ -29,6 +29,12 @@ class DeriveIdMeta extends StaticAnnotation {
 
 object DeriveIdMetaMacros {
 
+  @SuppressWarnings(
+    Array(
+      "org.wartremover.warts.Any",
+      "org.wartremover.warts.Nothing",
+      "org.wartremover.warts.PublicInference"
+    ))
   def impl(c: whitebox.Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
     import c.universe._
 
