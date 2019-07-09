@@ -33,7 +33,7 @@ lazy val doobie = project
 lazy val docs = project
   .in(file("docs"))
   .settings(commonSettings, skipOnPublishSettings, micrositeSettings)
-  .dependsOn(core)
+  .dependsOn(core, doobie)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(TutPlugin)
   .settings(libraryDependencies ++= Seq(
