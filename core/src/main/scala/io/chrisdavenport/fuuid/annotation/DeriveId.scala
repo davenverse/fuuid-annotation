@@ -55,7 +55,11 @@ object DeriveIdMacros {
   def fuuidLiteral(c: whitebox.Context)(s: c.Expr[String]): c.Tree = {
     import c.universe._
 
-    q"${c.prefix}.apply(_root_.io.chrisdavenport.fuuid.FUUID.fuuid($s))"
+    q"""
+      @SuppressWarnings(Array("org.wartremover.warts.Throw"))
+      val id = ${c.prefix}.apply(_root_.io.chrisdavenport.fuuid.FUUID.fuuid($s))
+      id
+    """
   }
 
   @SuppressWarnings(
