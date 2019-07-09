@@ -3,7 +3,7 @@ package io.chrisdavenport.fuuid.annotation
 import cats.Show
 import cats.effect.IO
 import cats.kernel.{Eq, Hash, Order}
-import io.chrisdavenport.fuuid.{FUUID => Fuuid}
+import io.chrisdavenport.fuuid.FUUID
 import org.specs2.matcher.IOMatchers
 import org.specs2.mutable.Specification
 import shapeless.test.illTyped
@@ -24,7 +24,7 @@ class DeriveIdSpec extends Specification with IOMatchers {
     import User._
 
     @SuppressWarnings(Array("org.wartremover.warts.Throw"))
-    val expected = Fuuid.fuuid("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
+    val expected = FUUID.fuuid("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
 
     "only be used with objects" >> {
       illTyped("""@DeriveId class Thing""", "@DeriveId can only be used with objects")
@@ -36,7 +36,7 @@ class DeriveIdSpec extends Specification with IOMatchers {
 
       "create Id out of a FUUID" >> {
         @SuppressWarnings(Array("org.wartremover.warts.Throw"))
-        val fuuid = Fuuid.fuuid("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
+        val fuuid = FUUID.fuuid("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
 
         val userId = User.Id.apply(fuuid)
 
@@ -77,7 +77,7 @@ class DeriveIdSpec extends Specification with IOMatchers {
       "create random Id value wrapped in an F" >> {
         val io = User.Id.random[IO]
 
-        io must returnValue(anInstanceOf[Fuuid])
+        io must returnValue(anInstanceOf[FUUID])
       }
 
     }
@@ -87,7 +87,7 @@ class DeriveIdSpec extends Specification with IOMatchers {
       "create random Id value unwrapped" >> {
         val userId = User.Id.Unsafe.random
 
-        userId must beAnInstanceOf[Fuuid]
+        userId must beAnInstanceOf[FUUID]
       }
 
     }
