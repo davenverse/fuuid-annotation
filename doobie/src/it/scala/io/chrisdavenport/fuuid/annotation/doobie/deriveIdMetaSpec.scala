@@ -7,7 +7,7 @@ import doobie.implicits._
 import doobie.postgres.implicits._
 import doobie.util.transactor.Transactor
 import io.chrisdavenport.fuuid.FUUID
-import io.chrisdavenport.fuuid.annotation.DeriveId
+import io.chrisdavenport.fuuid.annotation.deriveId
 import io.chrisdavenport.fuuid.doobie.implicits._
 import io.chrisdavenport.testcontainersspecs2.{ForAllTestContainer, UsesPostgreSQLMultipleDatabases}
 import org.specs2.matcher.IOMatchers
@@ -19,7 +19,7 @@ import org.specs2.mutable.Specification
     "org.wartremover.warts.NonUnitStatements"
   )
 )
-class DeriveIdMetaSpec
+class deriveIdMetaSpec
     extends Specification
     with UsesPostgreSQLMultipleDatabases
     with ForAllTestContainer
@@ -32,8 +32,8 @@ class DeriveIdMetaSpec
     dbPassword
   )
 
-  @DeriveId
-  @DeriveIdMeta
+  @deriveId
+  @deriveIdMeta
   object User
 
   "Meta[User.Id]" should {
