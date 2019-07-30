@@ -1,18 +1,28 @@
 lazy val `fuuid-annotation` = project
   .in(file("."))
   .settings(commonSettings, releaseSettings, skipOnPublishSettings)
-  .aggregate(core, docs)
+  .aggregate(core, doobie, docs)
 
 lazy val core = project
   .in(file("core"))
   .settings(scalacOptions --= Seq("-Ywarn-unused:patvars"))
   .settings(commonSettings, releaseSettings, mimaSettings)
   .settings(name := "fuuid-annotation")
-  .settings(Defaults.itSettings)
-  .configs(IntegrationTest)
   .settings(libraryDependencies ++= Seq(
     "org.scala-lang"    % "scala-reflect"          % scalaVersion.value,
-    "com.chuusai"       %% "shapeless"             % shapelessV % Test,
+    "com.chuusai"       %% "shapeless"             % shapelessV % Test
+  ))
+
+lazy val doobie = project
+  .in(file("doobie"))
+  .settings(scalacOptions --= Seq("-Ywarn-unused:patvars"))
+  .settings(commonSettings, releaseSettings, mimaSettings)
+  .settings(name := "fuuid-annotation-doobie")
+  .settings(Defaults.itSettings)
+  .configs(IntegrationTest)
+  .dependsOn(core)
+  .settings(libraryDependencies ++= Seq(
+    "com.chuusai"       %% "shapeless"             % shapelessV % IntegrationTest,
     "io.chrisdavenport" %% "fuuid-doobie"          % fuuidV % IntegrationTest,
     "org.specs2"        %% "specs2-cats"           % specs2V % IntegrationTest,
     "org.tpolecat"      %% "doobie-core"           % doobieV % IntegrationTest,
@@ -23,7 +33,7 @@ lazy val core = project
 lazy val docs = project
   .in(file("docs"))
   .settings(commonSettings, skipOnPublishSettings, micrositeSettings)
-  .dependsOn(core)
+  .dependsOn(core, doobie)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(TutPlugin)
   .settings(libraryDependencies ++= Seq(
@@ -58,9 +68,7 @@ lazy val commonSettings = Seq(
     "https://github.com/ChristopherDavenport/fuuid-annotation/blob/v" + version.value + "€{FILE_PATH}.scala"
   ),
   addCompilerPlugin("org.scalamacros" % "paradise"         % macroParadiseV cross CrossVersion.full),
-  addCompilerPlugin("com.github.ghik" %% "silencer-plugin" % silencerV),
   libraryDependencies ++= Seq(
-    "com.github.ghik"   %% "silencer-lib" % silencerV % Provided,
     "io.chrisdavenport" %% "fuuid"        % fuuidV,
     "org.specs2"        %% "specs2-core"  % specs2V % Test,
     "org.specs2"        %% "specs2-cats"  % specs2V % Test

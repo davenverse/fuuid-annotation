@@ -1,4 +1,4 @@
-package io.chrisdavenport.fuuid.annotation
+package io.chrisdavenport.fuuid.annotation.doobie
 
 import java.util.UUID
 
@@ -7,11 +7,13 @@ import doobie.implicits._
 import doobie.postgres.implicits._
 import doobie.util.transactor.Transactor
 import io.chrisdavenport.fuuid.FUUID
+import io.chrisdavenport.fuuid.annotation.DeriveId
+import io.chrisdavenport.fuuid.doobie.implicits._
 import io.chrisdavenport.testcontainersspecs2.{ForAllTestContainer, UsesPostgreSQLMultipleDatabases}
 import org.specs2.matcher.IOMatchers
 import org.specs2.mutable.Specification
 
-class DeriveIdSpec
+class DeriveIdMetaSpec
     extends Specification
     with UsesPostgreSQLMultipleDatabases
     with ForAllTestContainer
@@ -24,13 +26,11 @@ class DeriveIdSpec
     dbPassword
   )
 
-  @DeriveId(deriveMeta = true)
+  @DeriveId
+  @DeriveIdMeta
   object User
 
   "Meta[User.Id]" should {
-
-    import User._
-    import io.chrisdavenport.fuuid.doobie.implicits._
 
     "return User.Id on UUID" in {
       val uuid = UUID.randomUUID()
