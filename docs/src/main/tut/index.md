@@ -66,6 +66,7 @@ You'll need to add the following dependencies to your `build.sbt`:
 ```scala
 libraryDependencies ++= Seq(
   "io.chrisdavenport" %% "fuuid"           % "<version>",
+  "io.chrisdavenport" %% "fuuid-doobie"    % "<version>",
   "org.tpolecat"      %% "doobie-postgres" % "<doobie-version>",
 )
 ```
@@ -76,3 +77,18 @@ Then, just set annotation's `deriveMeta` to `true`:
 @DeriveId(deriveMeta = true)
 object Person
 ``` 
+
+The `Meta[Id]` instance will be available under object `Person`. An implicit instance of `Meta[FUUID]` must be provided.
+
+> A `Meta[FUUID]` instance can be provided by importing both `doobie.postgres.implicits_` and `io.chrisdavenport.fuuid.doobie.implicits_`.
+
+```tut:silent
+import doobie.util.Meta
+import doobie.postgres.implicits._
+import io.chrisdavenport.fuuid.doobie.implicits._
+import Person._
+```
+
+```tut
+Meta[Person.Id]
+```

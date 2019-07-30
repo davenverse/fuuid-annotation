@@ -15,8 +15,8 @@ import scala.reflect.macros.whitebox
  * The `deriveMeta` parameter can be used to control whether to
  * automatically derive (by setting it to `true`) a
  * [[https://git.io/fj64d doobie's Meta]]
- * instance for the generated `Id` type (a dependency with `fuuid-doobie`
- * and `doobie-postgres` will be necessary).
+ * instance for the generated `Id` type (an implicit `Meta[FUUID`
+ * will be required).
  *
  * @example For an object named `User` {{{
  * object User {
@@ -51,7 +51,7 @@ import scala.reflect.macros.whitebox
  *      with Order[User.Id] with Show[User.Id] = ???
  *
  *    //If `deriveMeta` is `true`
- *    implicit val IdMetaInstance: Meta[User.Id] = ???
+ *    implicit def IdMetaInstance(implicit U: Meta[FUUID]): Meta[User.Id] = ???
  *
  * }
  * }}}
@@ -91,9 +91,11 @@ object DeriveIdMacros {
     } getOrElse c.abort(c.enclosingPosition, "@DeriveId can only be used with objects")
 
     val metaInstance =
-      if (deriveMeta) q"""implicit val IdMetaInstance: _root_.doobie.util.Meta[$name.Id] =
-          _root_.io.chrisdavenport.fuuid.doobie.implicits.FuuidType(_root_.doobie.postgres.implicits.UuidType)
-            .timap($name.Id.apply)(identity)"""
+      if (deriveMeta)
+        q"""implicit def IdMetaInstance(
+              implicit U: _root_.doobie.util.Meta[_root_.io.chrisdavenport.fuuid.FUUID]
+            ): _root_.doobie.util.Meta[$name.Id] =
+              U.timap($name.Id.apply)(identity)"""
       else q""
 
     c.Expr[Any](q"""
