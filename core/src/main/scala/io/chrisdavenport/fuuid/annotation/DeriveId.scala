@@ -106,7 +106,10 @@ object DeriveIdMacros {
           
         }
 
-        @SuppressWarnings(Array("org.wartremover.warts.PublicInference"))
+        @SuppressWarnings(Array(
+          "org.wartremover.warts.PublicInference",
+          "org.wartremover.warts.ExplicitImplicitTypes"
+        ))
         implicit val IdHashOrderShowInstances: _root_.cats.Hash[$name.Id] with _root_.cats.Order[$name.Id] with _root_.cats.Show[$name.Id] =
           new _root_.cats.Hash[$name.Id] with _root_.cats.Order[$name.Id] with _root_.cats.Show[$name.Id] {
             override def show(t: $name.Id): String = t.show

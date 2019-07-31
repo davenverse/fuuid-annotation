@@ -45,7 +45,10 @@ object DeriveIdMetaMacros {
     c.Expr[Any](q"""
       $mods object $name extends ..$parents {
 
-        @SuppressWarnings(Array("org.wartremover.warts.PublicInference"))
+        @SuppressWarnings(Array(
+          "org.wartremover.warts.PublicInference",
+          "org.wartremover.warts.ExplicitImplicitTypes"
+        ))
         implicit val IdMetaInstance: _root_.doobie.util.Meta[$name.Id] =
           implicitly[_root_.doobie.util.Meta[_root_.io.chrisdavenport.fuuid.FUUID]]
             .timap($name.Id.apply)(identity)
