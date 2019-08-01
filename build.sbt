@@ -1,28 +1,48 @@
 lazy val `fuuid-annotation` = project
   .in(file("."))
   .settings(commonSettings, releaseSettings, skipOnPublishSettings)
-  .aggregate(core, docs)
+  .aggregate(core, doobie, docs)
 
 lazy val core = project
   .in(file("core"))
   .settings(scalacOptions --= Seq("-Ywarn-unused:patvars"))
   .settings(commonSettings, releaseSettings, mimaSettings)
   .settings(name := "fuuid-annotation")
+  .settings(libraryDependencies ++= Seq(
+    "org.scala-lang"    % "scala-reflect"          % scalaVersion.value,
+    "com.chuusai"       %% "shapeless"             % shapelessV % Test
+  ))
+
+lazy val doobie = project
+  .in(file("doobie"))
+  .settings(scalacOptions --= Seq("-Ywarn-unused:patvars"))
+  .settings(commonSettings, releaseSettings, mimaSettings)
+  .settings(name := "fuuid-annotation-doobie")
   .settings(Defaults.itSettings)
   .configs(IntegrationTest)
+  .dependsOn(core)
   .settings(libraryDependencies ++= Seq(
-    "org.specs2"        %% "specs2-cats"           % specs2V               % IntegrationTest,
-    "org.tpolecat"      %% "doobie-core"           % doobieV               % IntegrationTest,
-    "org.tpolecat"      %% "doobie-postgres"       % doobieV               % IntegrationTest,
+    "com.chuusai"       %% "shapeless"             % shapelessV % IntegrationTest,
+    "io.chrisdavenport" %% "fuuid-doobie"          % fuuidV % IntegrationTest,
+    "org.specs2"        %% "specs2-cats"           % specs2V % IntegrationTest,
+    "org.tpolecat"      %% "doobie-core"           % doobieV % IntegrationTest,
+    "org.tpolecat"      %% "doobie-postgres"       % doobieV % IntegrationTest,
     "io.chrisdavenport" %% "testcontainers-specs2" % testContainersSpecs2V % IntegrationTest
   ))
 
 lazy val docs = project
   .in(file("docs"))
   .settings(commonSettings, skipOnPublishSettings, micrositeSettings)
-  .dependsOn(core)
+  .dependsOn(core, doobie)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(TutPlugin)
+  .settings(wartremoverErrors --= Seq(
+    Wart.Throw, Wart.NonUnitStatements
+  ))
+  .settings(libraryDependencies ++= Seq(
+    "io.chrisdavenport" %% "fuuid-doobie"    % fuuidV,
+    "org.tpolecat"      %% "doobie-postgres" % doobieV,
+  ))
 
 lazy val contributors = Seq(
   "ChristopherDavenport" -> "Christopher Davenport",
@@ -30,17 +50,17 @@ lazy val contributors = Seq(
 )
 
 val doobieV = "0.7.0"
+val shapelessV = "2.3.3"
 val fuuidV = "0.2.0"
 val specs2V = "4.6.0"
 val macroParadiseV = "2.1.1"
 val silencerV = "1.4.1"
-val testContainersSpecs2V = "0.1.0"
+val testContainersSpecs2V = "0.2.0-M1"
 
 // General Settings
 lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
   scalaVersion := "2.12.8",
-  crossScalaVersions := Seq(scalaVersion.value, "2.11.12"),
   scalacOptions += "-Yrangepos",
   scalacOptions in (Compile, doc) ++= Seq(
     "-groups",
@@ -49,16 +69,12 @@ lazy val commonSettings = Seq(
     "-doc-source-url",
     "https://github.com/ChristopherDavenport/fuuid-annotation/blob/v" + version.value + "€{FILE_PATH}.scala"
   ),
+  wartremoverErrors ++= Warts.all,
   addCompilerPlugin("org.scalamacros" % "paradise"         % macroParadiseV cross CrossVersion.full),
-  addCompilerPlugin("com.github.ghik" %% "silencer-plugin" % silencerV),
   libraryDependencies ++= Seq(
-    "org.scala-lang"    % "scala-reflect"    % scalaVersion.value,
-    "org.tpolecat"      %% "doobie-postgres" % doobieV,
-    "com.github.ghik"   %% "silencer-lib"    % silencerV % Provided,
-    "io.chrisdavenport" %% "fuuid"           % fuuidV,
-    "io.chrisdavenport" %% "fuuid-doobie"    % fuuidV,
-    "org.specs2"        %% "specs2-core"     % specs2V % Test,
-    "org.specs2"        %% "specs2-cats"     % specs2V % Test
+    "io.chrisdavenport" %% "fuuid"        % fuuidV,
+    "org.specs2"        %% "specs2-core"  % specs2V % Test,
+    "org.specs2"        %% "specs2-cats"  % specs2V % Test
   )
 )
 
