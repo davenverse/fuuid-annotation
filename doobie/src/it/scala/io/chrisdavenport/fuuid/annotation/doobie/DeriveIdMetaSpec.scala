@@ -13,6 +13,12 @@ import io.chrisdavenport.testcontainersspecs2.{ForAllTestContainer, UsesPostgreS
 import org.specs2.matcher.IOMatchers
 import org.specs2.mutable.Specification
 
+@SuppressWarnings(
+  Array(
+    "org.wartremover.warts.Any",
+    "org.wartremover.warts.NonUnitStatements"
+  )
+)
 class DeriveIdMetaSpec
     extends Specification
     with UsesPostgreSQLMultipleDatabases

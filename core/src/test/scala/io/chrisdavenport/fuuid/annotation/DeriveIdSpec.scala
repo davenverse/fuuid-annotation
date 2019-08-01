@@ -8,7 +8,12 @@ import org.specs2.matcher.IOMatchers
 import org.specs2.mutable.Specification
 import shapeless.test.illTyped
 
-@SuppressWarnings(Array("org.wartremover.warts.Throw"))
+@SuppressWarnings(
+  Array(
+    "org.wartremover.warts.Any",
+    "org.wartremover.warts.NonUnitStatements"
+  )
+)
 class DeriveIdSpec extends Specification with IOMatchers {
 
   @DeriveId
@@ -18,6 +23,7 @@ class DeriveIdSpec extends Specification with IOMatchers {
 
     import User._
 
+    @SuppressWarnings(Array("org.wartremover.warts.Throw"))
     val expected = Fuuid.fuuid("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
 
     "only be used with objects" >> {
@@ -29,6 +35,7 @@ class DeriveIdSpec extends Specification with IOMatchers {
     "create apply FUUID method that" should {
 
       "create Id out of a FUUID" >> {
+        @SuppressWarnings(Array("org.wartremover.warts.Throw"))
         val fuuid = Fuuid.fuuid("13ea2ea9-6e30-4160-8491-f8d900eadb8f")
 
         val userId = User.Id.apply(fuuid)

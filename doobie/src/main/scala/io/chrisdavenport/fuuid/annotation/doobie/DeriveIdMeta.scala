@@ -29,6 +29,12 @@ class DeriveIdMeta extends StaticAnnotation {
 
 object DeriveIdMetaMacros {
 
+  @SuppressWarnings(
+    Array(
+      "org.wartremover.warts.Any",
+      "org.wartremover.warts.Nothing",
+      "org.wartremover.warts.PublicInference"
+    ))
   def impl(c: whitebox.Context)(annottees: c.Expr[Any]*): c.Expr[Any] = {
     import c.universe._
 
@@ -39,9 +45,10 @@ object DeriveIdMetaMacros {
     c.Expr[Any](q"""
       $mods object $name extends ..$parents {
 
-         implicit val IdMetaInstance: _root_.doobie.util.Meta[$name.Id] =
-           implicitly[_root_.doobie.util.Meta[_root_.io.chrisdavenport.fuuid.FUUID]]
-             .timap($name.Id.apply)(identity)
+        @SuppressWarnings(Array("org.wartremover.warts.PublicInference"))
+        implicit val IdMetaInstance: _root_.doobie.util.Meta[$name.Id] =
+          implicitly[_root_.doobie.util.Meta[_root_.io.chrisdavenport.fuuid.FUUID]]
+            .timap($name.Id.apply)(identity)
         
         ..$body
       }

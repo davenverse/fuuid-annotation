@@ -36,6 +36,9 @@ lazy val docs = project
   .dependsOn(core, doobie)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(TutPlugin)
+  .settings(wartremoverErrors --= Seq(
+    Wart.Throw, Wart.NonUnitStatements
+  ))
   .settings(libraryDependencies ++= Seq(
     "io.chrisdavenport" %% "fuuid-doobie"    % fuuidV,
     "org.tpolecat"      %% "doobie-postgres" % doobieV,
@@ -58,7 +61,6 @@ val testContainersSpecs2V = "0.2.0-M1"
 lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
   scalaVersion := "2.12.8",
-  crossScalaVersions := Seq(scalaVersion.value, "2.11.12"),
   scalacOptions += "-Yrangepos",
   scalacOptions in (Compile, doc) ++= Seq(
     "-groups",
@@ -67,6 +69,7 @@ lazy val commonSettings = Seq(
     "-doc-source-url",
     "https://github.com/ChristopherDavenport/fuuid-annotation/blob/v" + version.value + "€{FILE_PATH}.scala"
   ),
+  wartremoverErrors ++= Warts.all,
   addCompilerPlugin("org.scalamacros" % "paradise"         % macroParadiseV cross CrossVersion.full),
   libraryDependencies ++= Seq(
     "io.chrisdavenport" %% "fuuid"        % fuuidV,
