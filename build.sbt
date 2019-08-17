@@ -1,7 +1,7 @@
 lazy val `fuuid-annotation` = project
   .in(file("."))
   .settings(commonSettings, releaseSettings, skipOnPublishSettings)
-  .aggregate(core, doobie, docs)
+  .aggregate(core, doobie, circe, docs)
 
 lazy val core = project
   .in(file("core"))
@@ -30,6 +30,20 @@ lazy val doobie = project
     "io.chrisdavenport" %% "testcontainers-specs2" % testContainersSpecs2V % IntegrationTest
   ))
 
+lazy val circe = project
+  .in(file("circe"))
+  .settings(scalacOptions --= Seq("-Ywarn-unused:patvars"))
+  .settings(commonSettings, releaseSettings, mimaSettings)
+  .settings(name := "fuuid-annotation-circe")
+  .dependsOn(core)
+  .settings(libraryDependencies ++= Seq(
+    "com.chuusai"       %% "shapeless"      % shapelessV % Test,
+    "io.chrisdavenport" %% "fuuid-circe"    % fuuidV % Test,
+    "io.circe"          %% "circe-core"     % circeV % Test,
+    "io.circe"          %% "circe-parser"   % circeV % Test,
+    "io.circe"          %% "circe-literal"  % circeV % Test,
+  ))
+
 lazy val docs = project
   .in(file("docs"))
   .settings(commonSettings, skipOnPublishSettings, micrositeSettings)
@@ -52,6 +66,7 @@ lazy val contributors = Seq(
 val doobieV = "0.7.0"
 val shapelessV = "2.3.3"
 val fuuidV = "0.2.0"
+val circeV = "0.11.1"
 val specs2V = "4.6.0"
 val macroParadiseV = "2.1.1"
 val silencerV = "1.4.1"
