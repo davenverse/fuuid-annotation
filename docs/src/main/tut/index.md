@@ -56,6 +56,14 @@ User.Id.random[IO]
 User.Id.Unsafe.random
 ```
 
+- `unapply` method to allow pattern-match a `String` into a valid `Id`:
+
+```tut
+"bd9686b6-efcd-434c-b4f4-f46b990c1808" match {
+    case User.Id(userId) => userId
+}
+```
+
 The annotation also provides instances for cats `Show`, `Order` and `Hash` (availables at `User._`)
 
 ## Doobie integration
