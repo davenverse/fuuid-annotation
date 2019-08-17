@@ -45,6 +45,26 @@ class deriveIdSpec extends Specification with IOMatchers {
 
     }
 
+    "create unapply method that" should {
+
+      "matches UUID String to Id" >> {
+        val string = "13ea2ea9-6e30-4160-8491-f8d900eadb8f"
+
+        val userId = User.Id.unapply(string).map(_.show)
+
+        userId must be some string
+      }
+
+      "matches non UUID String to None" >> {
+        val string = "miau"
+
+        val userId = User.Id.unapply(string).map(_.show)
+
+        userId must be none
+      }
+
+    }
+
     "create apply macro UUID method that" should {
 
       "fail when not UUID" >> {

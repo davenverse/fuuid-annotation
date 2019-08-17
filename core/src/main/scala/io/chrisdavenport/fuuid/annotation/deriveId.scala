@@ -93,6 +93,9 @@ object deriveIdMacros {
     
           def apply(s: String): $name.Id =
             macro _root_.io.chrisdavenport.fuuid.annotation.deriveIdMacros.fuuidLiteral
+
+          def unapply(string: String): Option[$name.Id] =
+            _root_.io.chrisdavenport.fuuid.FUUID.fromStringOpt(string).map($name.Id.apply)
     
           def random[F[_]: _root_.cats.effect.Sync]: F[$name.Id] =
             _root_.cats.effect.Sync[F].map(_root_.io.chrisdavenport.fuuid.FUUID.randomFUUID[F])(apply)
