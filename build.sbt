@@ -47,7 +47,7 @@ lazy val circe = project
 lazy val docs = project
   .in(file("docs"))
   .settings(commonSettings, skipOnPublishSettings, micrositeSettings)
-  .dependsOn(core, doobie)
+  .dependsOn(core, doobie, circe)
   .enablePlugins(MicrositesPlugin)
   .enablePlugins(TutPlugin)
   .settings(wartremoverErrors --= Seq(
@@ -55,6 +55,8 @@ lazy val docs = project
   ))
   .settings(libraryDependencies ++= Seq(
     "io.chrisdavenport" %% "fuuid-doobie"    % fuuidV,
+    "io.chrisdavenport" %% "fuuid-circe"     % fuuidV,
+    "io.circe"          %% "circe-core"      % circeV,
     "org.tpolecat"      %% "doobie-postgres" % doobieV,
   ))
 
