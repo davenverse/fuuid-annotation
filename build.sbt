@@ -49,7 +49,7 @@ lazy val contributors = Seq(
   "alejandrohdezma" -> "Alejandro Hernández"
 )
 
-val doobieV = "0.7.0"
+val doobieV = "0.8.2"
 val shapelessV = "2.3.3"
 val fuuidV = "0.2.0"
 val specs2V = "4.6.0"
