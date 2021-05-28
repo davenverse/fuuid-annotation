@@ -60,7 +60,7 @@ val testContainersSpecs2V = "0.2.0-M1"
 // General Settings
 lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
-  scalaVersion := "2.12.8",
+  scalaVersion := "2.12.14",
   scalacOptions += "-Yrangepos",
   scalacOptions in (Compile, doc) ++= Seq(
     "-groups",
