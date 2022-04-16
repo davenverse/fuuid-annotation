@@ -51,8 +51,8 @@ lazy val contributors = Seq(
 
 val doobieV = "0.7.0"
 val shapelessV = "2.3.3"
-val fuuidV = "0.2.0"
-val specs2V = "4.6.0"
+val fuuidV = "0.7.0"
+val specs2V = "4.15.0"
 val macroParadiseV = "2.1.1"
 val silencerV = "1.4.1"
 val testContainersSpecs2V = "0.2.0-M1"
@@ -62,10 +62,10 @@ lazy val commonSettings = Seq(
   organization := "io.chrisdavenport",
   scalaVersion := "2.12.8",
   scalacOptions += "-Yrangepos",
-  scalacOptions in (Compile, doc) ++= Seq(
+  (Compile / doc / scalacOptions) ++= Seq(
     "-groups",
     "-sourcepath",
-    (baseDirectory in LocalRootProject).value.getAbsolutePath,
+    (LocalRootProject / baseDirectory).value.getAbsolutePath,
     "-doc-source-url",
     "https://github.com/ChristopherDavenport/fuuid-annotation/blob/v" + version.value + "€{FILE_PATH}.scala"
   ),
@@ -116,7 +116,7 @@ lazy val releaseSettings = {
           password
         )
     ).toSeq,
-    publishArtifact in Test := false,
+    (Test / publishArtifact) := false,
     releasePublishArtifactsAction := PgpKeys.publishSigned.value,
     scmInfo := Some(
       ScmInfo(
@@ -219,8 +219,8 @@ lazy val micrositeSettings = {
       "gray-lighter" -> "#F4F3F4",
       "white-color" -> "#FFFFFF"
     ),
-    fork in tut := true,
-    scalacOptions in Tut --= Seq(
+    (tut / fork) := true,
+    (Tut / scalacOptions) --= Seq(
       "-Xfatal-warnings",
       "-Ywarn-unused-import",
       "-Ywarn-numeric-widen",
@@ -228,7 +228,7 @@ lazy val micrositeSettings = {
       "-Ywarn-unused:imports",
       "-Xlint:-missing-interpolator,_"
     ),
-    libraryDependencies += "com.47deg" %% "github4s" % "0.20.1",
+    libraryDependencies += "com.47deg" %% "github4s" % "0.31.0",
     micrositePushSiteWith := GitHub4s,
     micrositeGithubToken := sys.env.get("GITHUB_TOKEN"),
     micrositeExtraMdFiles := Map(
@@ -249,7 +249,7 @@ lazy val micrositeSettings = {
 }
 
 lazy val skipOnPublishSettings = Seq(
-  skip in publish := true,
+  (publish / skip) := true,
   publish := (),
   publishLocal := (),
   publishArtifact := false,
